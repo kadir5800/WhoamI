@@ -32,7 +32,7 @@ namespace WhoamI.Business.Managers
                 return Error(message: BusinesLocalization.FillRequiredFields, code: 402);
 
 
-            var existingProvince = _EducationRepository.FirstOrDefault(t => t.School == request.School && t.EndDate == request.EndDate && t.StartDate == request.StartDate && t.UserId == request.UserId);
+            var existingProvince = _EducationRepository.FirstOrDefault(t => t.School == request.School && t.EndDate == DateTime.Parse(request.EndDate.ToString()) && t.StartDate == DateTime.Parse(request.StartDate.ToString()) && t.UserId == request.UserId);
 
 
             if (existingProvince != null)
@@ -43,8 +43,8 @@ namespace WhoamI.Business.Managers
                 UserId = request.UserId,
                 Degree = request.Degree,
                 School = request.School,
-                EndDate = request.EndDate,
-                StartDate = request.StartDate,
+                EndDate = DateTime.Parse(request.EndDate.ToString()),
+                StartDate = DateTime.Parse(request.StartDate.ToString()),
                 IsRunning = request.IsRunning,
                 CreationDate = DateTime.Now,
                 IsDeleted = false
@@ -87,7 +87,13 @@ namespace WhoamI.Business.Managers
                 var takeA = request.Length == "-1" ? recordsTotal : pageSize;
                 takeA = takeA == 0 ? 10 : takeA;
 
-                var sqlQuery = $@"SELECT [t0].* FROM Education AS [t0] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
+                var userSql = "";
+                if (request.UserId > 0)
+                {
+                    userSql = $" AND [t0].[UserId]= {request.UserId}";
+                }
+
+                var sqlQuery = $@"SELECT [t0].* FROM [Education] AS [t0]  Where [t0].[IsDeleted] = 0 {userSql} AND [t0].[School] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
 
                 var query = await _dbContext.educations
                 .FromSqlRaw(sqlQuery)
@@ -97,10 +103,10 @@ namespace WhoamI.Business.Managers
                     Degree = u.Degree,
                     School = u.School,
                     UserId = u.UserId,
-                    StartDate = u.StartDate,
-                    EndDate = u.EndDate,
+                    StartDate = DateTime.Parse(u.StartDate.ToString()).ToString(),
+                    EndDate = DateTime.Parse(u.EndDate.ToString()).ToString(),
                     IsRunning = u.IsRunning,
-                    CreationDate = DateTime.Parse(u.CreationDate.ToString()),
+                    CreationDate = DateTime.Parse(u.CreationDate.ToString()).ToString(),
                 }).ToListAsync();
 
                 var response = new getAllEducationResponse()
@@ -130,10 +136,10 @@ namespace WhoamI.Business.Managers
                 Degree = s.Degree,
                 School = s.School,
                 UserId = s.UserId,
-                StartDate = s.StartDate,
-                EndDate = s.EndDate,
+                StartDate = DateTime.Parse(s.StartDate.ToString()).ToString(),
+                EndDate = DateTime.Parse(s.EndDate.ToString()).ToString(),
                 IsRunning = s.IsRunning,
-                CreationDate = s.CreationDate,
+                CreationDate = DateTime.Parse(s.CreationDate.ToString()).ToString(),
             }).FirstOrDefault();
 
             if (existingBank == null)
@@ -153,8 +159,8 @@ namespace WhoamI.Business.Managers
 
             existingEducation.Degree = request.Degree;
             existingEducation.School = request.School;
-            existingEducation.StartDate = request.StartDate;
-            existingEducation.EndDate = request.EndDate;
+            existingEducation.StartDate = DateTime.Parse(request.StartDate.ToString());
+            existingEducation.EndDate = DateTime.Parse(request.EndDate.ToString());
             existingEducation.IsRunning = request.IsRunning;
             existingEducation.UserId = request.UserId;
 

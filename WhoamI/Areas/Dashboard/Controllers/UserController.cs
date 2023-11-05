@@ -48,12 +48,30 @@ namespace WhoamI_Web.Areas.Dashboard.Controllers
 
             var response = await _UserManager.getAllUser(request);
 
-            return Json(response);
+            return Json(response.Data);
         }
         [HttpPost]
         public async Task<JsonResult> addUser(addUserRequest request)
         {
             var response = await _UserManager.addUser(request);
+
+            return Json(response);
+        }
+        [HttpPost]
+        public async Task<JsonResult> getUserList()
+        {
+            var request = new dataTableRequest()
+            {
+                Draw = "",
+                Length = "1000",
+                SearchValue = "",
+                SortColumn = "Name",
+                SortColumnDir = "",
+                Start = "0",
+            };
+
+            var userData = await _UserManager.getAllUser(request);
+            var response = userData.Data.data;
 
             return Json(response);
         }

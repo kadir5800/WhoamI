@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace WhoamI.Business.Contracts.DTO.Article
     public class addArticleRequest
     {
         public string Name { get; set; }
+        public IFormFile file { get; set; }
         public string Image { get; set; }
         public string Description { get; set; }
         public int UserId { get; set; }

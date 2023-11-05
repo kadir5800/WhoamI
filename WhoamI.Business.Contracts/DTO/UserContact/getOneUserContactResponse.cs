@@ -9,6 +9,6 @@ namespace WhoamI.Business.Contracts.DTO.UserContact
     public class getOneUserContactResponse : addUserContactRequest
     {
         public int Id { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
     }
 }

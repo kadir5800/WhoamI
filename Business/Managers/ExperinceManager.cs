@@ -80,7 +80,13 @@ namespace WhoamI.Business.Managers
                 var takeA = request.Length == "-1" ? recordsTotal : pageSize;
                 takeA = takeA == 0 ? 10 : takeA;
 
-                var sqlQuery = $@"SELECT [t0].* FROM Experince AS [t0] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
+                var userSql = "";
+                if (request.UserId > 0)
+                {
+                    userSql = $" AND [t0].[UserId]= {request.UserId}";
+                }
+
+                var sqlQuery = $@"SELECT [t0].* FROM [Experince] AS [t0] Where [t0].[IsDeleted] = 0 {userSql} AND [t0].[Company] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
 
                 var query = await _dbContext.experinces
                 .FromSqlRaw(sqlQuery)
@@ -93,7 +99,7 @@ namespace WhoamI.Business.Managers
                     IsRunning = u.IsRunning,
                     Company = u.Company,
                     UserId=u.UserId,
-                    CreationDate = DateTime.Parse(u.CreationDate.ToString()),
+                    CreationDate = DateTime.Parse(u.CreationDate.ToString()).ToString(),
                 }).ToListAsync();
 
                 var response = new getAllExperinceResponse()
@@ -126,7 +132,7 @@ namespace WhoamI.Business.Managers
                 IsRunning = s.IsRunning,
                 Company = s.Company,
                 UserId = s.UserId,
-                CreationDate = s.CreationDate,
+                CreationDate = DateTime.Parse(s.CreationDate.ToString()).ToString(),
             }).FirstOrDefault();
 
             if (existingBank == null)

@@ -9,6 +9,6 @@ namespace WhoamI.Business.Contracts.DTO.SocialMedia
     public class getOneSocialMediaResponse : addSocialMediaRequest
     {
         public int Id { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
     }
 }

@@ -48,7 +48,7 @@ namespace WhoamI_Web.Areas.Dashboard.Controllers
 
             var response = await _ProjectManager.getAllProject(request);
 
-            return Json(response);
+            return Json(response.Data);
         }
         [HttpPost]
         public async Task<JsonResult> addProject(addProjectRequest request)

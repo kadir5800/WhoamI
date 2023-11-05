@@ -14,5 +14,6 @@ namespace WhoamI.Business.Contracts.DTO.DataTable
         public string SortColumn { get; set; }
         public string SortColumnDir { get; set; }
         public string SearchValue { get; set; }
+        public int UserId { get; set; }
     }
 }

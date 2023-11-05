@@ -78,8 +78,14 @@ namespace WhoamI.Business.Managers
 
                 var takeA = request.Length == "-1" ? recordsTotal : pageSize;
                 takeA = takeA == 0 ? 10 : takeA;
+                
+                var userSql = "";
+                if (request.UserId > 0)
+                {
+                    userSql = $" AND [t0].[UserId]= {request.UserId}";
+                }
 
-                var sqlQuery = $@"SELECT [t0].* FROM ServiceAndHobby AS [t0] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
+                var sqlQuery = $@"SELECT [t0].* FROM [ServiceAndHobby] AS [t0] Where [t0].[IsDeleted] = 0 {userSql} AND [t0].[Name] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
 
                 var query = await _dbContext.serviceAndHobbies
                 .FromSqlRaw(sqlQuery)
@@ -89,7 +95,7 @@ namespace WhoamI.Business.Managers
                     Name = u.Name,
                     IsService = u.IsService,
                     UserId = u.UserId,
-                    CreationDate = DateTime.Parse(u.CreationDate.ToString()),
+                    CreationDate = DateTime.Parse(u.CreationDate.ToString()).ToString(),
                 }).ToListAsync();
 
                 var response = new getAllServiceAndHobbyResponse()
@@ -119,7 +125,7 @@ namespace WhoamI.Business.Managers
                 Name = s.Name,
                 IsService = s.IsService,
                 UserId = s.UserId,
-                CreationDate = s.CreationDate,
+                CreationDate = DateTime.Parse(s.CreationDate.ToString()).ToString(),
             }).FirstOrDefault();
 
             if (existingBank == null)

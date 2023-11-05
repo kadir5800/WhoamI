@@ -9,6 +9,6 @@ namespace WhoamI.Business.Contracts.DTO.Experince
     public class getOneExperinceResponse:addExperinceRequest
     {
         public int Id { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
     }
 }

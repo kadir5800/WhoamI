@@ -79,8 +79,13 @@ namespace WhoamI.Business.Managers
 
                 var takeA = request.Length == "-1" ? recordsTotal : pageSize;
                 takeA = takeA == 0 ? 10 : takeA;
+                var userSql = "";
+                if (request.UserId>0)
+                {
+                    userSql = $" AND [t0].[UserId]= {request.UserId}";
+                }
 
-                var sqlQuery = $@"SELECT [t0].* FROM Ability AS [t0] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
+                var sqlQuery = $@"SELECT [t0].* FROM [Abilities] AS [t0]  Where [t0].[IsDeleted] = 0 {userSql} AND [t0].[Name] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
 
                 var query = await _dbContext.abilities
                 .FromSqlRaw(sqlQuery)
@@ -91,7 +96,7 @@ namespace WhoamI.Business.Managers
                     Degree = u.Degree,
                     UserId = u.UserId,
                     AbilityType = u.AbilityType,
-                    CreationDate = DateTime.Parse(u.CreationDate.ToString()),
+                    CreationDate = DateTime.Parse(u.CreationDate.ToString()).ToString(),
                 }).ToListAsync();
 
                 var response = new getAllAbilityResponse()
@@ -122,7 +127,7 @@ namespace WhoamI.Business.Managers
                 Degree = s.Degree,
                 UserId = s.UserId,
                 AbilityType = s.AbilityType,
-                CreationDate = s.CreationDate,
+                CreationDate = DateTime.Parse(s.CreationDate.ToString()).ToString(),
             }).FirstOrDefault();
 
             if (existingBank == null)

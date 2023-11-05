@@ -11,6 +11,6 @@ namespace WhoamI.Business.Contracts.DTO.Ability
         public int Degree { get; set; }
         public int UserId { get; set; }
         public string Name { get; set; }
-        public int AbilityType { get; set; }
+        public Boolean AbilityType { get; set; }
     }
 }

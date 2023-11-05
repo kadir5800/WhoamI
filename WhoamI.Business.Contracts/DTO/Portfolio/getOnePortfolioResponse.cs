@@ -9,6 +9,6 @@ namespace WhoamI.Business.Contracts.DTO.Portfolio
     public class getOnePortfolioResponse:addPortfolioRequest
     {
         public int Id { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
     }
 }

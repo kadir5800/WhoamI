@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure;
+using Microsoft.AspNetCore.Mvc;
 using WhoamI.Business.Contracts.DTO.Article;
 using WhoamI.Business.Contracts.DTO.Client;
 using WhoamI.Business.Contracts.DTO.DataTable;
@@ -16,7 +17,7 @@ namespace WhoamI_Web.Areas.Dashboard.Controllers
             _ArticleManager = ArticleManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             IActionResult result = RedirectToLoginIfNotConnected();
             if (result != null)
@@ -24,6 +25,22 @@ namespace WhoamI_Web.Areas.Dashboard.Controllers
                 return result;
             }
             return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Index(updateArticleRequest request)
+        {
+            if (request.Id > 0)
+            {
+                var response = await _ArticleManager.updateArticle(request);
+                return View();
+            }
+            else
+            {
+                var response = await _ArticleManager.addArticle(request);
+                return View();
+                
+            }
+
         }
         [HttpPost]
         public async Task<JsonResult> getAllArticle()
@@ -48,15 +65,9 @@ namespace WhoamI_Web.Areas.Dashboard.Controllers
 
             var response = await _ArticleManager.getAllArticle(request);
 
-            return Json(response);
+            return Json(response.Data);
         }
-        [HttpPost]
-        public async Task<JsonResult> addArticle(addArticleRequest request)
-        {
-            var response = await _ArticleManager.addArticle(request);
-
-            return Json(response);
-        }
+       
         [HttpPost]
         public async Task<JsonResult> getOneArticle(getOneRequest request)
         {
@@ -72,13 +83,6 @@ namespace WhoamI_Web.Areas.Dashboard.Controllers
 
             return Json(response);
         }
-
-        [HttpPost]
-        public async Task<JsonResult> updateArticle(updateArticleRequest request)
-        {
-            var response = await _ArticleManager.updateArticle(request);
-
-            return Json(response);
-        }
+       
     }
 }

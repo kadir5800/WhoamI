@@ -41,8 +41,12 @@
     <link rel="stylesheet" type="text/css" href="~/app-assets/css/pages/dashboard-analytics.css">
 
     <!-- Custom -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+
+   
+
     <link rel="stylesheet" type="text/css" href="~/assets/css/style.css">
-    <link href="~/assets/plugins/DataTables/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+@*     <link href="~/assets/plugins/DataTables/css/dataTables.bootstrap5.min.css" rel="stylesheet" /> *@
     <style>
         .buttons-html5 {
             border-style:solid;
@@ -52,7 +56,7 @@
     </style>
 
     <title>Admin Panel</title>
-
+    @RenderSection("css", required: false)
 </head>
 <body>
     <main class="hp-bg-color-dark-90 d-flex min-vh-100">
@@ -121,13 +125,17 @@
     <script src="~/app-assets/js/cards/card-advance.js"></script>
     <script src="~/app-assets/js/cards/card-statistic.js"></script>
 
-    <script src="~/assets/plugins/DataTables/js/jquery.dataTables.min.js"></script>
-    <script src="~/assets/plugins/DataTables/js/dataTables.bootstrap5.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+
+
+   @*  <script src="~/assets/plugins/datatables/js/jquery.datatables.min.js"></script>
+    <script src="~/assets/plugins/datatables/js/datatables.bootstrap5.min.js"></script> *@
 
     <!-- Custom -->
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    @RenderSection("javascripts", false)
+    @RenderSection("scripts", required: false)
 </body>
 
 

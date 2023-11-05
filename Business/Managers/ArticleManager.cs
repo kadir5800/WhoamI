@@ -19,10 +19,12 @@ namespace WhoamI.Business.Managers
     {
         private readonly IArticleRepository _ArticleRepository;
         private readonly WhoamIDbContext _dbContext;
-        public ArticleManager(IArticleRepository ArticleRepository, WhoamIDbContext dbContext)
+        private readonly PhotoManager _photoManager;
+        public ArticleManager(IArticleRepository ArticleRepository, WhoamIDbContext dbContext, PhotoManager photoManager)
         {
             _ArticleRepository = ArticleRepository;
             _dbContext = dbContext;
+            _photoManager = photoManager;
         }
 
         public async Task<ClientResult> addArticle(addArticleRequest request)
@@ -38,10 +40,21 @@ namespace WhoamI.Business.Managers
             if (existingProvince != null)
                 return Error(message: BusinesLocalization.sameRecordAvailable, code: 402);
 
+            var image = "";
+
+            var path = _photoManager.UploadPhoto(request.file, "ArticleImages");
+            if (path != null && !String.IsNullOrEmpty(path))
+            {
+                image = path;
+            }
+            else return Error(message: "Dosya Yükleme Başarısız", code: 402);
+
+
             await _ArticleRepository.InsertAsync(new Article()
             {
                 UserId = request.UserId,
                 Name = request.Name,
+                Image= image,
                 Description = request.Description,
                 CreationDate = DateTime.Now,
                 IsDeleted = false
@@ -62,6 +75,7 @@ namespace WhoamI.Business.Managers
                 return Error(message: BusinesLocalization.NotFound, code: 404);
 
             existingProvince.IsDeleted = true;
+            _photoManager.DeletePhoto(existingProvince.Image);
 
             await _ArticleRepository.UpdateAsync(existingProvince, true);
             return Success(message: BusinesLocalization.DeleteSuccess, code: 200);
@@ -84,7 +98,13 @@ namespace WhoamI.Business.Managers
                 var takeA = request.Length == "-1" ? recordsTotal : pageSize;
                 takeA = takeA == 0 ? 10 : takeA;
 
-                var sqlQuery = $@"SELECT [t0].* FROM Article AS [t0] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
+                var userSql = "";
+                if (request.UserId > 0)
+                {
+                    userSql = $" AND [t0].[UserId]= {request.UserId}";
+                }
+
+                var sqlQuery = $@"SELECT [t0].* FROM [Article] AS [t0]  Where [t0].[IsDeleted] = 0 {userSql} AND [t0].[Name] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
 
                 var query = await _dbContext.articles
                 .FromSqlRaw(sqlQuery)
@@ -95,7 +115,7 @@ namespace WhoamI.Business.Managers
                     Description = u.Description,
                     UserId = u.UserId,
                     Image = u.Image,
-                    CreationDate = DateTime.Parse(u.CreationDate.ToString()),
+                    CreationDate = DateTime.Parse(u.CreationDate.ToString()).ToString(),
                 }).ToListAsync();
 
                 var response = new getAllArticleResponse()
@@ -126,7 +146,7 @@ namespace WhoamI.Business.Managers
                 Description = s.Description,
                 UserId = s.UserId,
                 Image = s.Image,
-                CreationDate = s.CreationDate,
+                CreationDate = DateTime.Parse(s.CreationDate.ToString()).ToString(),
             }).FirstOrDefault();
 
             if (existingBank == null)
@@ -143,9 +163,21 @@ namespace WhoamI.Business.Managers
             var existingArticle = _ArticleRepository.FirstOrDefault(t => !t.IsDeleted && t.Id == request.Id);
             if (existingArticle == null)
                 return Error(message: BusinesLocalization.NotFound, code: 404);
+
+            var image = existingArticle.Image;
+
+            if (request.file!=null)
+            {
+                var path = _photoManager.UploadPhoto(request.file, "ArticleImages");
+                if (path != null && !String.IsNullOrEmpty(path))
+                {
+                    image = path;
+                }
+                else return Error(message: "Dosya Yükleme Başarısız", code: 402);
+            }
            
             existingArticle.Name = request.Name;
-            existingArticle.Image = request.Image;
+            existingArticle.Image = image;
             existingArticle.Description = request.Description;
             existingArticle.UserId = request.UserId;
 

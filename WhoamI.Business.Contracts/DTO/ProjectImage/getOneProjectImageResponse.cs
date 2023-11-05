@@ -11,6 +11,6 @@ namespace WhoamI.Business.Contracts.DTO.ProjectImage
         public int Id { get; set; }
         public int ProjectId { get; set; }
         public string Path { get; set; }
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
     }
 }

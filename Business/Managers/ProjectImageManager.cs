@@ -84,7 +84,13 @@ namespace WhoamI.Business.Managers
                 var takeA = request.Length == "-1" ? recordsTotal : pageSize;
                 takeA = takeA == 0 ? 10 : takeA;
 
-                var sqlQuery = $@"SELECT [t0].* FROM ProjectImage AS [t0] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
+                var userSql = "";
+                if (request.UserId > 0)
+                {
+                    userSql = $" AND [t0].[UserId]= {request.UserId}";
+                }
+
+                var sqlQuery = $@"SELECT [t0].* FROM [ProjectImage] AS [t0] Where [t0].[IsDeleted] = 0 {userSql} AND [t0].[Path] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
 
                 var query = await _dbContext.projectImages
                 .FromSqlRaw(sqlQuery)
@@ -93,7 +99,7 @@ namespace WhoamI.Business.Managers
                     Id = u.Id,
                     Path = u.Path,
                     ProjectId = u.ProjectId,
-                    CreationDate = DateTime.Parse(u.CreationDate.ToString()),
+                    CreationDate = DateTime.Parse(u.CreationDate.ToString()).ToString(),
                 }).ToListAsync();
 
                 var response = new getAllProjectImageResponse()
@@ -122,7 +128,7 @@ namespace WhoamI.Business.Managers
                 Id = s.Id,
                 Path = s.Path,
                 ProjectId = s.ProjectId,
-                CreationDate = s.CreationDate,
+                CreationDate = DateTime.Parse(s.CreationDate.ToString()).ToString(),
             }).FirstOrDefault();
 
             if (existing == null)

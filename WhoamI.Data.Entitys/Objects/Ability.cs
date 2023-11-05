@@ -12,7 +12,7 @@ namespace WhoamI.Data.Entitys.Objects
         public bool IsDeleted { get; set; }
         public int Degree { get; set; }
         public string Name { get; set; }
-        public int AbilityType { get; set; }
+        public Boolean AbilityType { get; set; }
         public int UserId { get; set; }
         public virtual User User { get; set; }
     }

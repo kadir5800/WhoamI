@@ -84,7 +84,14 @@ namespace WhoamI.Business.Managers
                 var takeA = request.Length == "-1" ? recordsTotal : pageSize;
                 takeA = takeA == 0 ? 10 : takeA;
 
-                var sqlQuery = $@"SELECT [t0].* FROM UserContact AS [t0] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
+
+                var userSql = "";
+                if (request.UserId > 0)
+                {
+                    userSql = $" AND [t0].[UserId]= {request.UserId}";
+                }
+
+                var sqlQuery = $@"SELECT [t0].* FROM [UserContact] AS [t0] LIKE Where [t0].[IsDeleted] = 0 {userSql} AND [t0].[Phone] '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
 
                 var query = await _dbContext.userContacts
                 .FromSqlRaw(sqlQuery)
@@ -99,7 +106,7 @@ namespace WhoamI.Business.Managers
                     Country = u.Country,
                     Phone = u.Phone,
                     AboutMe = u.AboutMe,
-                    CreationDate = DateTime.Parse(u.CreationDate.ToString()),
+                    CreationDate = DateTime.Parse(u.CreationDate.ToString()).ToString(),
                 }).ToListAsync();
 
                 var response = new getAllUserContactResponse()
@@ -134,7 +141,7 @@ namespace WhoamI.Business.Managers
                 Country = s.Country,
                 Phone = s.Phone,
                 AboutMe = s.AboutMe,
-                CreationDate = s.CreationDate,
+                CreationDate = DateTime.Parse(s.CreationDate.ToString()).ToString(),
             }).FirstOrDefault();
 
             if (existingBank == null)

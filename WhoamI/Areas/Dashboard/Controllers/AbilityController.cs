@@ -3,6 +3,7 @@ using WhoamI.Business.Contracts.DTO.Ability;
 using WhoamI.Business.Contracts.DTO.Client;
 using WhoamI.Business.Contracts.DTO.DataTable;
 using WhoamI.Business.Contracts.IManager;
+using WhoamI.Data.Entitys.Objects;
 
 namespace WhoamI_Web.Areas.Dashboard.Controllers
 {
@@ -48,7 +49,7 @@ namespace WhoamI_Web.Areas.Dashboard.Controllers
 
             var response = await _abilityManager.getAllAbility(request);
 
-            return Json(response);
+            return Json(response.Data);
         }
         [HttpPost]
         public async Task<JsonResult> addAbility(addAbilityRequest request)

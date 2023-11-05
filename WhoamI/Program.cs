@@ -19,6 +19,7 @@ services.AddDbContext<WhoamIDbContext>(optionsBuilder =>
 
 services.AddWhoamIDataWithEntityFrameworkCollection();
 services.AddWhoamIDataWithBusinessCollection();
+builder.Services.AddControllers().AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
 
 var app = builder.Build();
 

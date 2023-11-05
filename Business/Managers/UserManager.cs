@@ -81,7 +81,7 @@ namespace WhoamI.Business.Managers
                 var takeA = request.Length == "-1" ? recordsTotal : pageSize;
                 takeA = takeA == 0 ? 10 : takeA;
 
-                var sqlQuery = $@"SELECT [t0].* FROM User AS [t0] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
+                var sqlQuery = $@"SELECT [t0].* FROM [User] AS [t0] Where [t0].[IsDeleted] = 0 AND ([t0].[Name] +' '+ [t0].[Surname]) LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
 
                 var query = await _dbContext.users
                 .FromSqlRaw(sqlQuery)
@@ -91,7 +91,7 @@ namespace WhoamI.Business.Managers
                     Name = u.Name,
                     Email = u.Email,
                     Surname = u.Surname,
-                    CreationDate = DateTime.Parse(u.CreationDate.ToString()),
+                    CreationDate = DateTime.Parse(u.CreationDate.ToString()).ToString(),
                 }).ToListAsync();
 
                 var response = new getAllUserResponse()
@@ -120,7 +120,8 @@ namespace WhoamI.Business.Managers
                 Id = s.Id,
                 Name = s.Name,
                 Email = s.Email,
-                CreationDate = s.CreationDate,
+                Surname = s.Surname,
+                CreationDate = s.CreationDate.ToString(),
             }).FirstOrDefault();
 
             if (existingBank == null)
@@ -141,6 +142,7 @@ namespace WhoamI.Business.Managers
             existingUser.Id = request.Id;
             existingUser.Name = request.Name;
             existingUser.Email = request.Email;
+            existingUser.Surname = request.Surname;
 
             await _usersRepository.UpdateAsync(existingUser, true);
 

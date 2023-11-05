@@ -3,6 +3,379 @@
     ViewData["Title"] = "Index";
     Layout = "~/Areas/Dashboard/Views/Shared/_Layout.cshtml";
 }
+@section css{
+    <style>
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+        }
+    </style>
+}
+<div class="col-12 text-lg-center" style="font-size:32px; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Eğitimler</div>
+<div class="row justify-content-between gy-32">
+    <div class="col-6 hp-flex-none w-auto">
+        <div style="height:120px;" class=" row m-0 mb-16">
+            <div class="col-12 h-100">
+                <div class="form-group mb-12">
+                    <label class="form-label col-12 required" for="UserId">Kullanıcılar</label>
+                    <select onchange="selectedUser()" class="single-select col-12 form-select" id="UserId" name="UserId">
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col hp-flex-none w-auto mb-16">
+        <div class="row g-16">
+            <div class="col hp-flex-none w-auto">
+                <button data-bs-toggle="modal" data-bs-target="#modalx" class="btn btn-ghost btn-success me-14">Kayıt Ekle</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12">
+    <div class="card hp-contact-card mb-32">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped no-footer align-middle table-hover table-borderless" id="table" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th class="">Okul Adı </th>
+                            <th class="">Devam Ediyormu </th>
+                            <th class="">Derece</th>
+                            <th class="">Başlangıç Tarihi </th>
+                            <th class="">Bitiş Tarihi </th>
+                            <th class="">Oluşturulma Tarihi </th>
+                            <th class="">* </th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalx" tabindex="-1" aria-labelledby="varyingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-center" id="varyingModalLabel">Bilgiler</h5>
+                <button type="button" class="btn-close hp-bg-none d-flex align-items-center justify-content-center" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="ri-close-line hp-text-color-dark-0 lh-1" style="font-size: 24px;"></i>
+                </button>
+            </div>
+            <div class="modal-body">
 
-<h1>Index</h1>
+                <div class="mb-3">
+                    <input type="hidden" name="rowId" id="rowId" value="" />
+                    <label for="recipient-name" class="col-form-label">Okul Adı:</label>
+                    <input type="text" class="form-control" id="School" />
+                </div>
+                <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Başlangıç Tarihi :</label>
+                    <input type="date" class="form-control" id="StartDate" />
+                </div>
+                <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Bitiş Tarihi :</label>
+                    <input type="date" class="form-control" id="EndDate" />
+                </div>
+                @*  <div class="mb-3">
+                <label for="message-text" class="col-form-label">Logo :</label>
+                <div class="input-group mb-24">
+                <input type="file" name="Logo" class="form-control" id="Logo" />
+                </div>
+                </div> *@
+                <div class="mb-3">
+                    <div class="form-check form-switch mt-8">
+                        <input class="form-check-input" type="checkbox" id="IsRunning">
+                        <label class="form-check-label" for="IsRunning">
+                            <span class="ms-12">Devam ediyormu</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="recipient-name" class="col-form-label">Derece</label>
+                    <input type="text" class="form-control" id="Degree" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-text" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" onclick="javascripts:add();" class="btn btn-success">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+
+        var table = null;
+        $(($_) => {
+            getUserList();
+        });
+
+        var selectedUser = () => {
+            createTable();
+        }
+
+        var getUserList = () => {
+            $.post('@Url.Action("getUserList", "User")', (d, s) => {
+                if (s === "success") {
+                    $('#UserId').empty();
+                    for (let item of d) {
+                        $('#UserId').append(`<option value="${item.Id}">${item.Name} ${item.Surname}</option>`);
+                    }
+                    if ($('#UserId option').length > 0) {
+                        createTable();
+                    }
+                }
+            });
+        }
+        $('#modalx').on('hidden.bs.modal', function () {
+            $('#rowId').val('');
+            $('#EndDate').val('');
+            $('#School').val('');
+            $('#StartDate').val('');
+            $('#IsRunning').prop('checked', false);
+            $('#Degree').val('');
+        });
+        var add = () => {
+            if ($("#rowId").val() == null || $("#rowId").val() == "") {
+                $.post('@Url.Action("addEducation", "Education")', {
+                    Id: $("#rowId").val(),
+                    UserId: $("#UserId").val(),
+                    School: $('#School').val(),
+                    StartDate: $('#StartDate').val(),
+                    EndDate: $('#EndDate').val(),
+                    Degree: $('#Degree').val(),
+                    IsRunning: $('#IsRunning').prop('checked'),
+                }, (d, s) => {
+                    if (s === "success") {
+                        console.log(d);
+                        if (d.Success == true) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: d.Message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $('#modalx').modal('hide');
+                            table.ajax.reload();
+                        }
+                        else {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: d.Message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    }
+                });
+            } else {
+                $.post('@Url.Action("updateEducation", "Education")', {
+                    Id: $("#rowId").val(),
+                    UserId: $("#UserId").val(),
+                    School: $('#School').val(),
+                    StartDate: $('#StartDate').val(),
+                    EndDate: $('#EndDate').val(),
+                    Degree: $('#Degree').val(),
+                    IsRunning: $('#IsRunning').prop('checked'),
+                }, (d, s) => {
+                    if (s === "success") {
+                        console.log(d);
+                        if (d.Success == true) {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: d.Message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                            $('#modalx').modal('hide');
+                            table.ajax.reload();
+                        }
+                        else {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: d.Message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    }
+                });
+            }
+        };
+
+        var show = (_u_Id) => {
+            $('#modalx').modal('show');
+
+            $.post('@Url.Action("getOneEducation", "Education")', { Id: _u_Id }, (d, s) => {
+                if (s === "success") {
+                    if (d.Success == true) {
+                        $("#rowId").val(d.Data.Id);
+                        $('#Name').val(d.Data.Name);
+                        $('#Degree').val(d.Data.Degree);
+                        $('#AbilityType').prop('checked', !d.Data.AbilityType).click();
+                    }
+                    else {
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: d.Message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    }
+
+
+                }
+            });
+        };
+
+        var deletex = (_d_Id) => {
+
+            Swal.fire({
+                title: 'Silmek İstediğinize Emin Misiniz?',
+                showCancelButton: true,
+                confirmButtonText: 'Sil',
+                cancelButtonText: 'İptal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post('@Url.Action("deleteEducation", "Education")', { Id: _d_Id }, (d, s) => {
+                        if (s === "success") {
+                            if (d.Status == true) {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: d.Message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+
+                            } else {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: d.Message,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
+                            table.ajax.reload();
+                        }
+                        else {
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: d.Message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    });
+                }
+            })
+        }
+
+        var createTable = () => {
+            let UserId = $('#UserId').val();
+
+            if (table != null) {
+                table.destroy();
+                table = null;
+            }
+            table = $('#table').DataTable({
+                order: [[0, 'desc']],
+                sort: true,
+                processing: true,
+                serverSide: true,
+                //scrollY: "300px",
+                scrollY: false,
+                scrollX: false,
+                scrollCollapse: true,
+                paging: true,
+                filter: true,
+                orderMulti: true,
+                pageLength: 10,
+                lengthMenu: [[10, 25, 50, -1], [10, 25, 50, 'Tümü']],
+                ajax: {
+                    url: '@Url.Action("getAllEducation", "Education")',
+                    type: "POST",
+                    datatype: "json",
+                    data: (d) => {
+                        d.UserId = UserId
+                    }
+                },
+                createdRow: function (row, data, dataIndex) {
+                    $(row).attr('Id', 'row_' + data.Id);
+                },
+                columns: [
+                    { data: "School", name: "School", autowidth: true },
+                    { data: "IsRunning", name: "IsRunning", autowidth: true },
+                    { data: "Degree", name: "Degree", autowidth: true },
+                    { data: "StartDate", name: "StartDate", autowidth: true },
+                    { data: "EndDate", name: "EndDate", autowidth: true },
+                    { data: "CreationDate", name: "CreationDate", autowidth: true },
+                    {
+                        "render": (data, type, full, meta) => {
+                            return `<div class="col">
+                                                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                                                      <button type="button" class="btn btn-outline-warning tooltips btn-sm " data-placement="top" data-original-title="Düzeltme"  onclick="javascripts:show(${full.Id});"> <i class="ri-edit-line"></i>   <span class="tooltips"> </span> </button>
+
+                                                                                                                                    <button type="button" class="btn btn-outline-danger tooltips btn-sm" data-placement="top" data-original-title="Sil" onclick="javascripts:deletex(${full.Id});"><i class="ri-delete-bin-7-line"></i> </button>
+                                                                                                                    </div>
+                                                                                                                </div>`;
+                        },
+                        "autoWidth": true,
+                        "searchable": true
+                    }
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        text: '<i class="fa-solid fa-file-excel"></i>',
+                        titleAttr: 'Excel',
+                        className: '',
+                        exportOptions: {
+                            columns: "thead th:not(.noExport)"
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        text: '<i class="fa-solid fa-file-pdf"></i>',
+                        titleAttr: 'PDF',
+                        className: '',
+                        exportOptions: {
+                            columns: "thead th:not(.noExport)"
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i class="fa-solid fa-print"></i>',
+                        titleAttr: 'Print',
+                        className: '',
+                        exportOptions: {
+                            columns: "thead th:not(.noExport)"
+                        }
+                    },
+                ],
+                initComplete: function (settings, json) {
+                    $('#table_filter input').removeClass('form-control-sm');
+                    $('#table_length select').removeClass('form-select-sm');
+                    $('.dataTables_scrollBody').removeAttr('style').css({
+                        'position': 'relative',
+                        'overflow-y': 'auto',
+                        'overflow-x': 'auto',
+                        'width': '100%'
+                        /*'max-height': ((window.innerHeight / 2) + 120) + 'px'*/
+                    });
+
+                }
+            });
+        }
+    </script>
+}
 
