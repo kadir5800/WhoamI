@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WhoamI.Core\WhoamI.Core.csproj" />
+    <ProjectReference Include="..\WhoamI.Data.Entitys\WhoamI.Data.Entitys.csproj" />
+  </ItemGroup>
+
+</Project>
