@@ -17,7 +17,7 @@ namespace WhoamI.Data.EntityFrameworkCore.Mappings
 
             builder.Property(u => u.IsDeleted).HasColumnType("bit").IsRequired(true);
 
-            builder.Property(a => a.Path).HasMaxLength(50).IsRequired(true);
+            builder.Property(a => a.Path).HasMaxLength(255).IsRequired(true);
 
             builder.Property(a => a.ProjectId).HasColumnType("int").IsRequired(true);
             builder.HasOne(a => a.Project).WithMany(u => u.projectImages).HasForeignKey(a => a.ProjectId);

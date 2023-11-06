@@ -85,7 +85,7 @@ namespace WhoamI.Business.Managers
                     userSql = $" AND [t0].[UserId]= {request.UserId}";
                 }
 
-                var sqlQuery = $@"SELECT [t0].* FROM [ServiceAndHobby] AS [t0] Where [t0].[IsDeleted] = 0 {userSql} AND [t0].[Name] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
+                var sqlQuery = $@"SELECT [t0].* FROM [ ServiceAndHobby] AS [t0] Where [t0].[IsDeleted] = 0 {userSql} AND [t0].[Name] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
 
                 var query = await _dbContext.serviceAndHobbies
                 .FromSqlRaw(sqlQuery)
@@ -145,7 +145,6 @@ namespace WhoamI.Business.Managers
 
             existingServiceAndHobby.Name = request.Name;
             existingServiceAndHobby.IsService = request.IsService;
-            existingServiceAndHobby.UserId = request.UserId;
 
             await _ServiceAndHobbyRepository.UpdateAsync(existingServiceAndHobby, true);
 

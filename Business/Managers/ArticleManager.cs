@@ -179,7 +179,6 @@ namespace WhoamI.Business.Managers
             existingArticle.Name = request.Name;
             existingArticle.Image = image;
             existingArticle.Description = request.Description;
-            existingArticle.UserId = request.UserId;
 
             await _ArticleRepository.UpdateAsync(existingArticle, true);
 

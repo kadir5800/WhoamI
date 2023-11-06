@@ -153,7 +153,6 @@ namespace WhoamI.Business.Managers
             existingTestimonial.Surname = request.Surname;
             existingTestimonial.Opinion = request.Opinion;
             existingTestimonial.Job = request.Job;
-            existingTestimonial.UserId = request.UserId;
 
             await _TestimonialRepository.UpdateAsync(existingTestimonial, true);
 

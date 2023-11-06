@@ -155,7 +155,6 @@ namespace WhoamI.Business.Managers
             existingExperince.EndDate = request.EndDate;
             existingExperince.IsRunning = request.IsRunning;
             existingExperince.Company = request.Company;
-            existingExperince.UserId = request.UserId;
 
             await _ExperinceRepository.UpdateAsync(existingExperince, true);
 

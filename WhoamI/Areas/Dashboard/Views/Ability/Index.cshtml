@@ -228,7 +228,7 @@
                 if (result.isConfirmed) {
                     $.post('@Url.Action("deleteAbility", "Ability")', { Id: _d_Id }, (d, s) => {
                         if (s === "success") {
-                            if (d.Status == true) {
+                            if (d.Success == true) {
                                 Swal.fire({
                                     position: 'top-end',
                                     icon: 'success',

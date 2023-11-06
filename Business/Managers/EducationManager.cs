@@ -162,7 +162,6 @@ namespace WhoamI.Business.Managers
             existingEducation.StartDate = DateTime.Parse(request.StartDate.ToString());
             existingEducation.EndDate = DateTime.Parse(request.EndDate.ToString());
             existingEducation.IsRunning = request.IsRunning;
-            existingEducation.UserId = request.UserId;
 
             await _EducationRepository.UpdateAsync(existingEducation, true);
 

@@ -1,49 +1,150 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WhoamI</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WhoamI.styles.css" asp-append-version="true" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="WebSite">
+    <meta name="author" content="Marketify">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Kadir | Home</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/animation.css" />
+    <link rel="stylesheet" type="text/css" href="~/assets/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="~/assets/css/cdheadline.css" />
+    <link rel="stylesheet" type="text/css" href="~/assets/css/fontello.css" />
+    <link rel="stylesheet" type="text/css" href="~/assets/css/hamburgers.css" />
+    <link rel="stylesheet" type="text/css" href="~/assets/css/magnificpopup.css" />
+    <link rel="stylesheet" type="text/css" href="~/assets/css/owlcarousel.css" />
+    <link rel="stylesheet" type="text/css" href="~/assets/css/owltheme.css" />
+    <link rel="stylesheet" type="text/css" href="~/assets/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="~/assets/css/main.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WhoamI</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div id="preloader">
+        <div class="loader_line"></div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - WhoamI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
+    <div class="cavani_tm_all_wrap w-full min-h-[100vh] clear-both float-left relative" data-magic-cursor="show" data-enter="fadeInUp">
+        <div class="cavani_tm_left_border fixed inset-y-0 left-0 w-[70px] bg-white z-[10]"></div>
+        <div class="cavani_tm_right_border fixed inset-y-0 right-0 w-[70px] bg-white z-[10]"></div>
+
+        <div class="cavani_tm_topbar fixed top-0 left-0 right-0 h-[50px] bg-white z-[15] hidden middle:block">
+            <div class="topbar_inner w-full h-full clear-both flex items-center justify-between py-0 px-[20px]">
+                <div class="logo" data-type="image">
+                    <a class="image" href="#"><img class="max-w-[100px] max-h-[40px]" src="~/assets/img/logo/dark.png" /></a>
+                    <a class="text text-black uppercase font-poppins text-[22px] font-extrabold tracking-[2px] leading-[50px]" href="#"><span>Cavani</span></a>
+                </div>
+                <div class="trigger relative top-[5px]">
+                    <div class="hamburger hamburger--slider">
+                        <div class="hamburger-box">
+                            <div class="hamburger-inner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+        <div class="cavani_tm_mobile_menu fixed top-[50px] right-[-200px] h-[100vh] w-[200px] z-[15] bg-white transition-all duration-300">
+            <div class="inner relative w-full h-full text-right px-[20px] pt-[70px] pb-[20px]">
+                <div class="wrapper">
+                    <div class="avatar w-[70px] h-[70px] relative float-right mb-[60px]">
+                        <div class="image absolute inset-0 bg-no-repeat bg-cover bg-center" data-img-url="assets/img/about/1.jpg"></div>
+                    </div>
+                    <div class="menu_list w-full h-auto clear-both float-left mb-[50px]">
+                        <ul class="transition_link">
+                            <li class="active mb-[7px]"><a class="text-[#333] font-poppins" href="#home">Home</a></li>
+                            <li class="mb-[7px]"><a class="text-[#333] font-poppins" href="#about">About</a></li>
+                            <li class="mb-[7px]"><a class="text-[#333] font-poppins" href="#portfolio">Portfolio</a></li>
+                            <li class="mb-[7px]"><a class="text-[#333] font-poppins" href="#service">Service</a></li>
+                            <li class="mb-[7px]"><a class="text-[#333] font-poppins" href="#news">News</a></li>
+                            <li class="mb-[7px]"><a class="text-[#333] font-poppins" href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="social w-full float-left mb-[5px]">
+                        <ul>
+                            <li class="mr-[8px] inline-block"><a class="text-[#333]" href="#"><img class="svg" src="~/assets/img/svg/social/facebook.svg" /></a></li>
+                            <li class="mr-[8px] inline-block"><a class="text-[#333]" href="#"><img class="svg" src="~/assets/img/svg/social/twitter.svg" /></a></li>
+                            <li class="mr-[8px] inline-block"><a class="text-[#333]" href="#"><img class="svg" src="~/assets/img/svg/social/instagram.svg" /></a></li>
+                            <li class="mr-[8px] inline-block"><a class="text-[#333]" href="#"><img class="svg" src="~/assets/img/svg/social/dribbble.svg" /></a></li>
+                            <li class="inline-block"><a class="text-[#333]" href="#"><img class="svg" src="~/assets/img/svg/social/tik-tok.svg" /></a></li>
+                        </ul>
+                    </div>
+                    <div class="copyright w-full float-left">
+                        <p class="text-[#333] font-poppins">Copyright &copy; 2023</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="cavani_tm_header fixed top-0 left-0 right-0 h-[70px] leading-[70px] bg-white z-[10] flex items-center justify-between py-0 px-[70px] middle:hidden">
+            <div class="logo" data-type="image">
+                <a class="image" href="#"><img class="max-w-[110px] max-h-[65px] inline-block" src="~/assets/img/logo/dark.png" alt /></a>
+                <a class="text no-underline text-black uppercase font-poppins text-[25px] font-extrabold tracking-[2px] leading-[70px]" href="#"><span class="relative top-[2px]">Cavani</span></a>
+            </div>
+            <div class="menu relative">
+                <ul class="transition_link">
+                    <li class="active float-left"><a class="text-[#333] font-poppins font-medium py-0 px-[30px] inline-block transition-all duration-300" href="#home">Home</a></li>
+                    <li class="float-left"><a class="text-[#333] font-poppins font-medium py-0 px-[30px] inline-block transition-all duration-300" href="#about">About</a></li>
+                    <li class="float-left"><a class="text-[#333] font-poppins font-medium py-0 px-[30px] inline-block transition-all duration-300" href="#portfolio">Portfolio</a></li>
+                    <li class="float-left"><a class="text-[#333] font-poppins font-medium py-0 px-[30px] inline-block transition-all duration-300" href="#service">Service</a></li>
+                    <li class="float-left"><a class="text-[#333] font-poppins font-medium py-0 px-[30px] inline-block transition-all duration-300" href="#news">News</a></li>
+                    <li class="float-left"><a class="text-[#333] font-poppins font-medium py-0 px-[30px] inline-block transition-all duration-300" href="#contact">Contact</a></li>
+                </ul>
+                <span class="ccc absolute w-[30px] block top-[15px] bottom-[15px] bg-[#333] z-[-1] transition-all duration-500"></span>
+            </div>
+        </div>
+
+
+        <div class="cavani_tm_mainpart absolute inset-[70px] overflow-hidden middle:inset-x-0 middle:bottom-0 middle:top-[55px]">
+            <div class="author_image absolute top-0 left-0 bottom-0 w-[40%] z-[15]">
+                <div class="main absolute inset-0 bg-no-repeat bg-cover bg-center" data-img-url="assets/img/about/1.jpg"></div>
+            </div>
+            <div class="main_content absolute top-0 right-0 bottom-0 w-[60%]">
+
+                @RenderBody()
+
+
+            </div>
+        </div>
+
+
+        <div class="cavani_tm_footer fixed inset-x-0 bottom-0 bg-white z-[10] h-[70px] leading-[70px] flex items-center justify-between py-0 px-[70px] middle:hidden">
+            <div class="copyright">
+                <p class="text-[#333] font-poppins">Copyright &copy; 2023</p>
+            </div>
+            <div class="social">
+                <ul>
+                    <li class="mr-[15px] inline-block"><a class="text-[#333]" href="#"><img class="svg inline-block" src="~/assets/img/svg/social/facebook.svg" alt /></a></li>
+                    <li class="mr-[15px] inline-block"><a class="text-[#333]" href="#"><img class="svg inline-block" src="~/assets/img/svg/social/twitter.svg" alt /></a></li>
+                    <li class="mr-[15px] inline-block"><a class="text-[#333]" href="#"><img class="svg inline-block" src="~/assets/img/svg/social/instagram.svg" alt /></a></li>
+                    <li class="mr-[15px] inline-block"><a class="text-[#333]" href="#"><img class="svg inline-block" src="~/assets/img/svg/social/dribbble.svg" alt /></a></li>
+                    <li class="inline-block"><a class="text-[#333]" href="#"><img class="svg inline-block" src="~/assets/img/svg/social/tik-tok.svg" alt /></a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="mouse-cursor cursor-outer"></div>
+        <div class="mouse-cursor cursor-inner"></div>
+
+    </div>
+    <script src="~/assets/js/jquery.js"></script>
+    <!--[if lt IE 10]> <script type="text/javascript" src="js/ie8.js"></script> <![endif]-->
+    <script src="~/assets/js/circularprogress.js"></script>
+    <script src="~/assets/js/glitch.js"></script>
+    <script src="~/assets/js/isotope.js"></script>
+    <script src="~/assets/js/lettertype.js"></script>
+    <script src="~/assets/js/magnificpopup.js"></script>
+    <script src="~/assets/js/nicescroll.js"></script>
+    <script src="~/assets/js/owlcarousel.js"></script>
+    <script src="~/assets/js/particle.js"></script>
+    <script src="~/assets/js/ripple.js"></script>
+    <script src="~/assets/js/waypoints.js"></script>
+    <script src="~/assets/js/.html"></script>
+    <script src="~/assets/js/init.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5bpEs3xlB8vhxNFErwoo3MXR64uavf6Y&amp;callback=initMap"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

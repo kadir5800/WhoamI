@@ -48,7 +48,7 @@ namespace WhoamI_Web.Areas.Dashboard.Controllers
 
             var response = await _UserContactManager.getAllUserContact(request);
 
-            return Json(response);
+            return Json(response.Data);
         }
         [HttpPost]
         public async Task<JsonResult> addUserContact(addUserContactRequest request)

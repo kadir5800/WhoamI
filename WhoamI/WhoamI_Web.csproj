@@ -31,6 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\assets\js\main.js" />
+    <None Include="wwwroot\assets\plugins\DataTables\js\dataTables.bootstrap5.min.js" />
+    <None Include="wwwroot\assets\plugins\DataTables\js\jquery.dataTables.min.js" />
     <None Include="wwwroot\js\site.js" />
   </ItemGroup>
 

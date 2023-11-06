@@ -3,6 +3,10 @@ using WhoamI.Business.Contracts.DTO.Project;
 using WhoamI.Business.Contracts.DTO.Client;
 using WhoamI.Business.Contracts.DTO.DataTable;
 using WhoamI.Business.Contracts.IManager;
+using WhoamI.Business.Contracts.DTO.Article;
+using WhoamI.Business.Managers;
+using Microsoft.AspNetCore.Identity;
+using WhoamI.Business.Contracts.DTO.ProjectImage;
 
 namespace WhoamI_Web.Areas.Dashboard.Controllers
 {
@@ -10,10 +14,12 @@ namespace WhoamI_Web.Areas.Dashboard.Controllers
     public class ProjectController : BaseController
     {
         private readonly IProjectManager _ProjectManager;
+        private readonly IProjectImageManager _ProjectImageManager;
 
-        public ProjectController(IProjectManager ProjectManager)
+        public ProjectController(IProjectManager ProjectManager, IProjectImageManager projectImageManager)
         {
             _ProjectManager = ProjectManager;
+            _ProjectImageManager = projectImageManager;
         }
 
         public IActionResult Index()
@@ -24,6 +30,36 @@ namespace WhoamI_Web.Areas.Dashboard.Controllers
                 return result;
             }
             return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Index(updateProjectRequest request, int projectId)
+        {
+            if (projectId > 0)
+            {
+                var imageReq = new addProjectImageRequest()
+                {
+                    file = request.file,
+                    ProjectId = projectId,
+                };
+                var response = await _ProjectImageManager.addProjectImage(imageReq);
+              
+            }
+            else
+            {
+                if (request.Id > 0)
+                {
+                    var response = await _ProjectManager.updateProject(request);
+                   
+                }
+                else
+                {
+                    var response = await _ProjectManager.addProject(request);
+                   
+
+                }
+            }
+            return View();
+
         }
         [HttpPost]
         public async Task<JsonResult> getAllProject()
@@ -51,12 +87,25 @@ namespace WhoamI_Web.Areas.Dashboard.Controllers
             return Json(response.Data);
         }
         [HttpPost]
-        public async Task<JsonResult> addProject(addProjectRequest request)
+        public async Task<JsonResult> getImageList(int projectId)
         {
-            var response = await _ProjectManager.addProject(request);
+            var request = new dataTableRequest()
+            {
+                Draw = "",
+                Length = "1000",
+                SearchValue = "",
+                SortColumn = "Id",
+                SortColumnDir = "",
+                Start = "0",
+                UserId = projectId
+            };
+
+            var userData = await _ProjectImageManager.getAllProjectImage(request);
+            var response = userData.Data.data;
 
             return Json(response);
         }
+
         [HttpPost]
         public async Task<JsonResult> getOneProject(getOneRequest request)
         {
@@ -72,11 +121,10 @@ namespace WhoamI_Web.Areas.Dashboard.Controllers
 
             return Json(response);
         }
-
         [HttpPost]
-        public async Task<JsonResult> updateProject(updateProjectRequest request)
+        public async Task<JsonResult> deletePhoto(getOneRequest request)
         {
-            var response = await _ProjectManager.updateProject(request);
+            var response = await _ProjectImageManager.deleteProjectImage(request);
 
             return Json(response);
         }

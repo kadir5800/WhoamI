@@ -91,7 +91,7 @@ namespace WhoamI.Business.Managers
                     userSql = $" AND [t0].[UserId]= {request.UserId}";
                 }
 
-                var sqlQuery = $@"SELECT [t0].* FROM [UserContact] AS [t0] LIKE Where [t0].[IsDeleted] = 0 {userSql} AND [t0].[Phone] '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
+                var sqlQuery = $@"SELECT [t0].* FROM [UserContact] AS [t0]  Where [t0].[IsDeleted] = 0 {userSql} AND [t0].[Phone] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
 
                 var query = await _dbContext.userContacts
                 .FromSqlRaw(sqlQuery)
@@ -166,7 +166,6 @@ namespace WhoamI.Business.Managers
             existingUserContact.Country = request.Country;
             existingUserContact.Phone = request.Phone;
             existingUserContact.AboutMe = request.AboutMe;
-            existingUserContact.UserId = request.UserId;
 
             await _UserContactRepository.UpdateAsync(existingUserContact, true);
 

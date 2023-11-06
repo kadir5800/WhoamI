@@ -48,7 +48,7 @@ namespace WhoamI_Web.Areas.Dashboard.Controllers
 
             var response = await _ServiceAndHobbyManager.getAllServiceAndHobby(request);
 
-            return Json(response);
+            return Json(response.Data);
         }
         [HttpPost]
         public async Task<JsonResult> addServiceAndHobby(addServiceAndHobbyRequest request)

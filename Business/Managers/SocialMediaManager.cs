@@ -154,7 +154,6 @@ namespace WhoamI.Business.Managers
             existingSocialMedia.Name = request.Name;
             existingSocialMedia.Logo = request.Logo;
             existingSocialMedia.Description = request.Description;
-            existingSocialMedia.UserId = request.UserId;
 
             await _SocialMediaRepository.UpdateAsync(existingSocialMedia, true);
 

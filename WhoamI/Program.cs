@@ -1,8 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.PortableExecutable;
 using WhoamI.Business;
 using WhoamI.Data.EntityFrameworkCore;
-using WhoamI_Web.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;

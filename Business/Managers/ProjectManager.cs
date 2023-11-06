@@ -189,14 +189,10 @@ namespace WhoamI.Business.Managers
             {
                 request.Icon = existingProject.Icon;
             }
-           
-
-
             existingProject.Name = request.Name;
             existingProject.WebAddress = request.WebAddress;
             existingProject.Icon = request.Icon;
             existingProject.Description = request.Description;
-            existingProject.UserId = request.UserId;
 
             await _ProjectRepository.UpdateAsync(existingProject, true);
 

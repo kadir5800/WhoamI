@@ -154,7 +154,6 @@ namespace WhoamI.Business.Managers
             existingPortfolio.Name = request.Name;
             existingPortfolio.PortfolioType = request.PortfolioType;
             existingPortfolio.Description = request.Description;
-            existingPortfolio.UserId = request.UserId;
 
             await _PortfolioRepository.UpdateAsync(existingPortfolio, true);
 

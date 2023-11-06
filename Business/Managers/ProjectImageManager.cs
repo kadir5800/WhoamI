@@ -87,7 +87,7 @@ namespace WhoamI.Business.Managers
                 var userSql = "";
                 if (request.UserId > 0)
                 {
-                    userSql = $" AND [t0].[UserId]= {request.UserId}";
+                    userSql = $" AND [t0].[ProjectId]= {request.UserId}";
                 }
 
                 var sqlQuery = $@"SELECT [t0].* FROM [ProjectImage] AS [t0] Where [t0].[IsDeleted] = 0 {userSql} AND [t0].[Path] LIKE '%{request.SearchValue}%' ORDER BY [t0].[{request.SortColumn}] {request.SortColumnDir} OFFSET {skip} ROWS FETCH NEXT {takeA} ROWS ONLY";
